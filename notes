@@ -29,3 +29,123 @@ https://material.io/resources/color/#!/?view.left=0&view.right=0
 https://github.com/Acedio/animalese.js
 https://www.reddit.com/user/KenNL
 https://www.reddit.com/r/gamedev/comments/3oeege/best_way_to_make_animal_crossingundertale_blarble/
+
+
+[CAT] has [HeterochromiaType] Heterochromia.
+Complete:
+Her [leftEye] is [leftEyeColor] while her right eye is [rightEyeColor].
+
+Central:
+Both her eyes are [eyeColor] but the inner ring around her pupils are [eyeRingColor]
+
+Sectoral:
+Both her eyes are [eyeColor] but:
+
+-single eye-
+her [left/right] eye has [a patch/patches] that [doesn't/don't] match her eye color.
+-both eyes-
+both of her eyes have patches that don't match her eye color.
+
+On the [patchSpot] of her [left/right] eye she has a [patchColor] patch
+
+There are patche(s) at:
+[patchLocation] and the color of it is [patchColor]
+
+/* 
+      short           -7in -17.78cm
+      Ear             8-9in 20.32-22.86cm
+      Chin            10-11in 25.4-27.94cm
+      Neck            12-13in 30.48-33.02cm
+      Shoulder        14-15in 35.56-38.1cm
+      Armpit          16-17in 40.64-43.18cm
+  
+      Armpit          16-19in 40.64-48.26cm
+      Bra-strap       18-19in 45.72-48.26cm
+  
+      Mid-back        20-21in 50.8-53.34cm
+      Waist           22-25in 55.88-63.5cm
+      Hip             26-28in 66.04-71.12cm
+      Tailbone        33-35in 83.82-88.9cm
+      Classic         36-39in 91.44-99.06cm
+      Mid-Thigh       40-46in 101.6-116.84cm
+      Knee            47-53in 119.38-134.62cm
+      Calf            54-64in 137.16-162.56cm
+      Ankle           65-69in 165.1-175.26cm
+      Floor           +70in +177.8cm
+      */
+
+
+function TEMPLATE() {
+
+    this.init() = function () {
+
+    };
+
+    init();
+}
+
+//Cat Gen Functions
+function generateCats() {
+    var catCount = $("#catCount").val();
+    var tmpArray = [];
+
+    for (let index = 0; index < catCount; index++) {
+        tmpArray.push(makeCat());
+    }
+
+    catArrayMain = catArrayMain.concat(tmpArray);
+
+    exportToCatCard();
+}
+
+function addCat() {
+    catArrayMain.push(makeCat());
+    exportToCatCard();
+}
+
+function removeCat(button_id) {
+    if (button_id == "endOfArrayRemove") {
+        if (catArrayMain[catArrayMain.length - 1].lock.state == "UNLOCK") {
+            catArrayMain.splice(catArrayMain.length - 1, 1);
+            exportToCatCard();
+        }
+    } else {
+        //if the id is not 'endOfArrayRemove' then it should be the index of the card from the card remove button
+        if (catArrayMain[button_id].lock.state == "UNLOCK") {
+            catArrayMain.splice(button_id, 1);
+            exportToCatCard();
+        }
+    }
+}
+
+function rerollCats() {
+    var tmpArray = [];
+    var rem = 0;
+
+    catArrayMain.forEach((element) => {
+        if (element.lock.state == "LOCK") {
+            tmpArray.push(element);
+        }
+    });
+
+    if (tmpArray.length != catArrayMain.length) {
+        rem = catArrayMain.length - tmpArray.length;
+        catArrayMain = [];
+
+        for (let index = 0; index < rem; index++) {
+            catArrayMain.push(makeCat());
+        }
+
+        catArrayMain = tmpArray.concat(catArrayMain);
+
+        exportToCatCard();
+    }
+}
+
+function rerollCat(button_id) {
+    if (catArrayMain[button_id].lock.state == "UNLOCK") {
+        var newCat = makeCat();
+        catArrayMain[button_id] = newCat;
+        exportCatToHTMLCard(button_id);
+    }
+}
